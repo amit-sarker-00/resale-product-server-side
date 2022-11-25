@@ -72,7 +72,7 @@ async function run() {
       const user = await userCollections.findOne(query);
       res.send(user);
     });
-    //add products and get
+    //add products, get and delete
     app.post("/addproduct", async (req, res) => {
       const product = req.body;
       const result = await productsCollections.insertOne(product);
@@ -83,6 +83,12 @@ async function run() {
       const query = { email };
       const product = await productsCollections.find(query).toArray();
       res.send(product);
+    });
+    app.delete("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await productsCollections.deleteOne(query);
+      res.send(result);
     });
   } finally {
   }
