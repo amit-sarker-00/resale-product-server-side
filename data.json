@@ -1,0 +1,42 @@
+[
+  {
+    "categoryName": "Sports Bike",
+    "resale": "900",
+    "image": "https://i.ibb.co/TM097xs/16306741-0-104675891.jpg",
+    "original": "1400",
+    "location": "sylhet, Bangladesh",
+    "used": 2.5,
+    "date": 2021,
+    "sellerName": "Amit Sarker"
+  },
+  {
+    "categoryName": "Cruiser Bike",
+    "resale": "1000",
+    "image": "https://i.ibb.co/qjTkxXz/Benda-BD300-1653387452645-1653387464504.jpg",
+    "original": "1600",
+    "location": "rajoir,Madaripur, Bangladesh",
+    "used": 3,
+    "date": 2022,
+    "sellerName": "joy Sarker"
+  },
+  {
+    "categoryName": "Sports Bike",
+    "resale": "720",
+    "image": "https://i.ibb.co/fxVrDbq/photo-1572746965401-cb4df8f9fa79-ixlib-rb-1-2.jpg",
+    "original": "1200",
+    "location": "faridpur, Bangladesh",
+    "used": 1.5,
+    "date": 2019,
+    "sellerName": "Argho Sarker"
+  },
+  {
+    "categoryName": "Sports Bike",
+    "resale": "820",
+    "image": "https://i.ibb.co/r7r9WBd/gsx1300rrm3-blk-single-seat-cowl-diagonal-2400x1600.png",
+    "original": "1100",
+    "location": "barishal, Bangladesh",
+    "used": 2,
+    "date": 2020,
+    "sellerName": "Rahul Sarker"
+  }
+]

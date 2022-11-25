@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const port = process.env.PORT || 5000;
@@ -22,11 +22,67 @@ async function run() {
     const resaleCollections = client
       .db("resaleHolder")
       .collection("latestSell");
+    const userCollections = client.db("resaleHolder").collection("users");
+    const productsCollections = client
+      .db("resaleHolder")
+      .collection("products");
+    const storeBikesCollections = client
+      .db("resaleHolder")
+      .collection("bikeStore");
+    const categoryCollections = client
+      .db("resaleHolder")
+      .collection("categories");
 
     app.get("/latestSell", async (req, res) => {
       const query = {};
       const latest = await resaleCollections.find(query).limit(8).toArray();
       res.send(latest);
+    });
+
+    //save user in Database
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      const result = await userCollections.insertOne(user);
+      res.send(result);
+    });
+    // categories
+    app.get("/categories", async (req, res) => {
+      const query = {};
+      const categories = await categoryCollections.find(query).toArray();
+      res.send(categories);
+    });
+
+    //get store bike
+    app.get("/storeBikes/:name", async (req, res) => {
+      const categoryName = req.params.name;
+      const query = { categoryName };
+      const storeBikes = await storeBikesCollections.find(query).toArray();
+      res.send(storeBikes);
+    });
+    app.get("/categories/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const categories = await categoryCollections.findOne(query);
+      res.send(categories);
+    });
+    //users
+    app.get("/users/:email", async (req, res) => {
+      const userEmail = req.query.email;
+      const query = { userEmail };
+      const user = await userCollections.findOne(query);
+      res.send(user);
+    });
+    //add products and get
+    app.post("/addproduct", async (req, res) => {
+      const product = req.body;
+      const result = await productsCollections.insertOne(product);
+      res.send(result);
+    });
+    app.get("/product/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const product = await productsCollections.find(query).toArray();
+      res.send(product);
     });
   } finally {
   }
