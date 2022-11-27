@@ -51,6 +51,9 @@ async function run() {
       .db("resaleHolder")
       .collection("latestSell");
     const userCollections = client.db("resaleHolder").collection("users");
+    const advertisementCollections = client
+      .db("resaleHolder")
+      .collection("advertise");
     const buyerCollections = client
       .db("resaleHolder")
       .collection("bookProducts");
@@ -112,11 +115,31 @@ async function run() {
       const users = await userCollections.find(query).toArray();
       res.send(users);
     });
+
     // book now product
     app.post("/booknow", async (req, res) => {
       const product = req.body;
       const result = await buyerCollections.insertOne(product);
       res.send(result);
+    });
+    //get seller
+    app.get("/sellers", async (req, res) => {
+      const query = {};
+      const users = await userCollections.find(query).toArray();
+      res.send(users);
+    });
+    app.get("/seller", async (req, res) => {
+      const query = { role: "seller" };
+      const allseller = await userCollections.find(query).toArray();
+      res.send(allseller);
+    });
+
+    //buyerCollections
+    app.get("/myorders/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const product = await buyerCollections.find(query).toArray();
+      res.send(product);
     });
     //make admin
     app.put("/users/admin/:id", async (req, res) => {
@@ -152,6 +175,12 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await productsCollections.deleteOne(query);
+      res.send(result);
+    });
+    // advertise
+    app.post("/advertise", async (req, res) => {
+      const advertise = req.body;
+      const result = await advertisementCollections.insertOne(advertise);
       res.send(result);
     });
   } finally {
