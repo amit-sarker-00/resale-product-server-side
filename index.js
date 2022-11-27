@@ -51,6 +51,9 @@ async function run() {
       .db("resaleHolder")
       .collection("latestSell");
     const userCollections = client.db("resaleHolder").collection("users");
+    const buyerCollections = client
+      .db("resaleHolder")
+      .collection("bookProducts");
     const productsCollections = client
       .db("resaleHolder")
       .collection("products");
@@ -108,6 +111,12 @@ async function run() {
       const query = {};
       const users = await userCollections.find(query).toArray();
       res.send(users);
+    });
+    // book now product
+    app.post("/booknow", async (req, res) => {
+      const product = req.body;
+      const result = await buyerCollections.insertOne(product);
+      res.send(result);
     });
     //make admin
     app.put("/users/admin/:id", async (req, res) => {
