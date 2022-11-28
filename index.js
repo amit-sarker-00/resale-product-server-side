@@ -4,6 +4,7 @@ const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+
 const port = process.env.PORT || 5000;
 
 //middleware
@@ -51,6 +52,7 @@ async function run() {
       .db("resaleHolder")
       .collection("latestSell");
     const userCollections = client.db("resaleHolder").collection("users");
+    const paymentsCollection = client.db("resaleHolder").collection("payments");
     const advertisementCollections = client
       .db("resaleHolder")
       .collection("advertise");
@@ -141,6 +143,13 @@ async function run() {
       const product = await buyerCollections.find(query).toArray();
       res.send(product);
     });
+    app.get("/orders/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const orders = await buyerCollections.findOne(query);
+      res.send(orders);
+    });
+
     //make admin
     app.get("/users/admin/:email", async (req, res) => {
       const email = req.params.email;
@@ -187,12 +196,6 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await productsCollections.deleteOne(query);
-      res.send(result);
-    });
-    // advertise
-    app.post("/advertise", async (req, res) => {
-      const advertise = req.body;
-      const result = await advertisementCollections.insertOne(advertise);
       res.send(result);
     });
   } finally {
