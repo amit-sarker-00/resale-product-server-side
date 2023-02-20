@@ -71,15 +71,25 @@ async function run() {
 
     app.get("/latestSell", async (req, res) => {
       const query = {};
-      const latest = await resaleCollections.find(query).limit(8).toArray();
+      const latest = await resaleCollections
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(-8)
+        .toArray();
       res.send(latest);
     });
 
     // categories
     app.get("/categories", async (req, res) => {
       const query = {};
-      const categories = await categoryCollections.find(query).toArray();
+      const categories = await categoryCollections
+
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(-8)
+        .toArray();
       res.send(categories);
+      console.log(categories);
     });
 
     //get store bike
@@ -191,6 +201,16 @@ async function run() {
       const query = { email };
       const product = await productsCollections.find(query).toArray();
       res.send(product);
+    });
+
+    app.get("/recent", async (req, res) => {
+      const query = {};
+      const recentAdd = await productsCollections
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(-6)
+        .toArray();
+      res.send(recentAdd);
     });
     app.delete("/product/:id", async (req, res) => {
       const id = req.params.id;
