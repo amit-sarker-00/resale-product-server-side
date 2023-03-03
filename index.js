@@ -96,7 +96,10 @@ async function run() {
     app.get("/storeBikes/:name", async (req, res) => {
       const categoryName = req.params.name;
       const query = { categoryName };
-      const storeBikes = await storeBikesCollections.find(query).toArray();
+      const storeBikes = await storeBikesCollections
+        .find(query)
+        .sort({ _id: -1 })
+        .toArray();
       res.send(storeBikes);
     });
     app.get("/categories/:id", async (req, res) => {
