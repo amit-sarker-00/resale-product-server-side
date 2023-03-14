@@ -52,7 +52,7 @@ async function run() {
       .db("resaleHolder")
       .collection("latestSell");
     const userCollections = client.db("resaleHolder").collection("users");
-    const paymentsCollection = client.db("resaleHolder").collection("payments");
+    const bannerCollection = client.db("resaleHolder").collection("banner");
     const advertisementCollections = client
       .db("resaleHolder")
       .collection("advertise");
@@ -79,6 +79,16 @@ async function run() {
       res.send(latest);
     });
 
+    //banner data
+    app.get("/banner", async (req, res) => {
+      const query = {};
+      const banner = await bannerCollection
+        .find(query)
+        .sort({ _id: -1 })
+        .limit(-6)
+        .toArray();
+      res.send(banner);
+    });
     // categories
     app.get("/categories", async (req, res) => {
       const query = {};
