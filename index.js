@@ -96,7 +96,7 @@ async function run() {
 
         .find(query)
         .sort({ _id: -1 })
-        .limit(-8)
+        .limit(-10)
         .toArray();
       res.send(categories);
       console.log(categories);
